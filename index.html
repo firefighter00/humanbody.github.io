@@ -138,7 +138,7 @@
         var lefthand=childData.lefthand;
         var leftleg=childData.leftleg;
         var righthand=childData.righthand;
-        var rightleg=childData.righthand;
+        var rightleg=childData.rightleg;
         document.getElementById('headID').innerHTML = "Temparature : "+head+" degC";
         document.getElementById('lhandID').innerHTML = "Temparature : "+lefthand+" degC";
         document.getElementById('llegID').innerHTML = "Temparature : "+leftleg+" degC";
@@ -187,7 +187,7 @@
         var styleSheetHead = document.createElement("style")
         styleSheetHead.innerText = stylesHead
         if(righthand> 38){
-            document.getElementById("right-hand").appendChild(stylesRH);
+            document.getElementById("right-hand").appendChild(styleSheetRH);
             document.getElementById("right-arm").appendChild(styleSheetRA);
         }
         if(rightleg> 38){
