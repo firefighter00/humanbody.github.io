@@ -14,9 +14,44 @@
 
 </head>
 <body >
-
+    <div class="center">
+        <div class="head-box">
+            <p id="headID" style="justify-content: center;display: flex;"></p>
+        </div>
+    </div>
+    <div class="left">
+        <div class="gas-box">
+            <p id="gasID" style="justify-content: center;display: flex;"></p>
+        </div>
+        <div class="rotation-box">
+            <p id="rotateID" style="justify-content: center;display: flex; padding-left: 10px;"></p>
+        </div>
+        <div class="falling-box">
+            <p id="fallingID" style="justify-content: center;display: flex;"></p>
+        </div>
+        <div class="lefthand-box">
+            <p id="lhandID" style="justify-content: center;display: flex;"></p>
+        </div>
+        <div class="leftleg-box">
+            <p id="llegID" style="justify-content: center;display: flex;"></p>
+        </div>
+    </div>
+    <div class="right">
+        <div class="heart-box">
+            <p id="heartID" style="justify-content: center;display: flex;"></p>
+        </div>
+        <div class="righthand-box">
+            <p id="rhandID" style="justify-content: center;display: flex;"></p>
+        </div>
+        <div class="rightleg-box">
+            <p id="rlegID" style="justify-content: center;display: flex;"></p>
+        </div>
+    </div>
     <!-- Human Body //-->
     <div class="human-body">
+        
+        
+        
         <svg data-position='head' id='head' class='head' xmlns='http://www.w3.org/2000/svg' width='56.594' height='95.031' viewBox='0 0 56.594 95.031'><path d='M15.92 68.5l8.8 12.546 3.97 13.984-9.254-7.38-4.622-15.848zm27.1 0l-8.8 12.546-3.976 13.988 9.254-7.38 4.622-15.848zm6.11-27.775l.108-11.775-21.16-14.742L8.123 26.133 8.09 40.19l-3.24.215 1.462 9.732 5.208 1.81 2.36 11.63 9.72 11.018 10.856-.324 9.56-10.37 1.918-11.952 5.207-1.81 1.342-9.517zm-43.085-1.84l-.257-13.82L28.226 11.9l23.618 15.755-.216 10.37 4.976-17.085L42.556 2.376 25.49 0 10.803 3.673.002 24.415z'/></svg>
         <svg data-position='left-shoulder' id='left-shoulder' class='left-shoulder' xmlns='http://www.w3.org/2000/svg' width='109.532' height='46.594' viewBox='0 0 109.532 46.594'><path d='m 38.244,-0.004 1.98,9.232 -11.653,2.857 -7.474,-2.637 z M 17.005,10.536 12.962,8.35 0.306,22.35 0.244,27.675 c 0,0 16.52,-17.015 16.764,-17.14 z m 1.285,0.58 C 18.3,11.396 0.528,30.038 0.528,30.038 L -0.01,46.595 6.147,36.045 18.017,30.989 26.374,15.6 Z'/></svg>
         <svg data-position='right-shoulder' id='right-shoulder' class='right-shoulder' xmlns='http://www.w3.org/2000/svg' width='109.532' height='46.594' viewBox='0 0 109.532 46.594'><path d='m 3.2759972,-0.004 -1.98,9.232 11.6529998,2.857 7.473999,-2.637 z m 21.2379988,10.54 4.044,-2.187 12.656,14 0.07,5.33 c 0,0 -16.524,-17.019 -16.769,-17.144 z m -1.285,0.58 c -0.008,0.28 17.762,18.922 17.762,18.922 l 0.537,16.557 -6.157,-10.55 -11.871,-5.057 L 15.147997,15.6 Z'/></svg>
@@ -58,15 +93,117 @@
         measurementId: "G-ZBRE0QC68D"
     };
 
-    firebase.initializeApp(firebaseConfig);
+        firebase.initializeApp(firebaseConfig);
 
-    var fallingRef = firebase.database().ref('Sensors').child('Acceleration').child('Falling');
+        var fallingRef = firebase.database().ref('Sensors').child('Acceleration').child('Falling');
+        var gasRef = firebase.database().ref('Sensors').child('Gas').child('Detected');
+        var heartRef = firebase.database().ref('Sensors').child('HeartRate');
+        var rotateRef = firebase.database().ref('Sensors').child('Rotation');
+        var tempRef = firebase.database().ref('Sensors').child('Temperature');
 
-    fallingRef.on("value", function(snapshot) {
-    var childData = snapshot.val();        
-    console.log(childData);
-});
-
+        fallingRef.on("value", function(snapshot) {
+        var childData = snapshot.val();        
+        if (childData == 0){
+            document.getElementById('fallingID').innerHTML = "Action: Standing";
+        }else{
+            document.getElementById('fallingID').innerHTML = "Action: Falling Detected";
+        }
+    });
+    gasRef.on("value", function(snapshot) {
+        var childData = snapshot.val();        
+        if (childData==0){
+            document.getElementById('gasID').innerHTML = "Gas Detection: Normal Air";
+        }else{
+            document.getElementById('gasID').innerHTML = "Gas Detection: Toxic Air";
+        }
+    });
+    heartRef.on("value", function(snapshot) {
+        var childData = snapshot.val();        
+        if (childData==0){
+            document.getElementById('heartID').innerHTML = "Heart Rate: Not Detected";
+        }else{
+            document.getElementById('heartID').innerHTML = "Heart Rate: "+childData+" BPM";
+        }
+    });
+    rotateRef.on("value", function(snapshot) {
+        var childData = snapshot.val();
+        var x=childData.X;
+        var y=childData.Y;
+        var z=childData.Z;
+        document.getElementById('rotateID').innerHTML = "Rotation X: "+x+" Y: "+y+" Z: "+z+" rad/s";
+    });
+    tempRef.on("value", function(snapshot) {
+        var childData = snapshot.val();
+        var head=childData.head;
+        var lefthand=childData.lefthand;
+        var leftleg=childData.leftleg;
+        var righthand=childData.righthand;
+        var rightleg=childData.righthand;
+        document.getElementById('headID').innerHTML = "Temparature : "+head+" degC";
+        document.getElementById('lhandID').innerHTML = "Temparature : "+lefthand+" degC";
+        document.getElementById('llegID').innerHTML = "Temparature : "+leftleg+" degC";
+        document.getElementById('rhandID').innerHTML = "Temparature : "+righthand+" degC";
+        document.getElementById('rlegID').innerHTML = "Temparature : "+rightleg+" degC";
+        var stylesRL = `
+        .human-body svg#right-leg {
+        fill:#F12B2C;
+        }`
+        var stylesRH = `
+        .human-body svg#right-hand {
+        fill:#F12B2C;
+        }`
+        var stylesRA = `
+        .human-body svg#right-arm {
+        fill:#F12B2C;
+        }`
+        var stylesLL = `
+        .human-body svg#left-leg {
+        fill:#F12B2C;
+        }`
+        var stylesLH = `
+        .human-body svg#left-hand {
+        fill:#F12B2C;
+        }`
+        var stylesLA = `
+        .human-body svg#left-arm {
+        fill:#F12B2C;
+        }`
+        var stylesHead = `
+        .human-body svg#head {
+        fill:#F12B2C;
+        }`
+        var styleSheetRL = document.createElement("style")
+        styleSheetRL.innerText = stylesRL
+        var styleSheetRH = document.createElement("style")
+        styleSheetRH.innerText = stylesRH
+        var styleSheetRA = document.createElement("style")
+        styleSheetRA.innerText = stylesRA
+        var styleSheetLL = document.createElement("style")
+        styleSheetLL.innerText = stylesLL
+        var styleSheetLH = document.createElement("style")
+        styleSheetLH.innerText = stylesLH
+        var styleSheetLA = document.createElement("style")
+        styleSheetLA.innerText = stylesLA
+        var styleSheetHead = document.createElement("style")
+        styleSheetHead.innerText = stylesHead
+        if(righthand> 38){
+            document.getElementById("right-hand").appendChild(stylesRH);
+            document.getElementById("right-arm").appendChild(styleSheetRA);
+        }
+        if(rightleg> 38){
+            document.getElementById("right-leg").appendChild(styleSheetRL);
+        }
+        if(lefthand> 38){
+            document.getElementById("left-hand").appendChild(styleSheetLH);
+            document.getElementById("left-arm").appendChild(styleSheetLA);
+        }
+        if(leftleg> 38){
+            document.getElementById("left-leg").appendChild(styleSheetLL);
+        }
+        if(head> 38){
+            document.getElementById("head").appendChild(styleSheetHead);
+        }
+    });
 </script>
 
 
