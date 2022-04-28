@@ -4,4 +4,4 @@
 ## What is human body syg?
 Create a human body svg and catch data with svg properties.
 
-[Live Demo](https://maya-gans.shinyapps.io/human_body_app/)
+[Live Demo](https://firefighter00.github.io/humanbody.github.io/)
