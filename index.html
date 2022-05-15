@@ -23,9 +23,6 @@
         <div class="gas-box">
             <p id="gasID" style="justify-content: center;display: flex;"></p>
         </div>
-        <div class="rotation-box">
-            <p id="rotateID" style="justify-content: center;display: flex; padding-left: 10px;"></p>
-        </div>
         <div class="falling-box">
             <p id="fallingID" style="justify-content: center;display: flex;"></p>
         </div>
@@ -124,13 +121,6 @@
         }else{
             document.getElementById('heartID').innerHTML = "Heart Rate: "+childData+" BPM";
         }
-    });
-    rotateRef.on("value", function(snapshot) {
-        var childData = snapshot.val();
-        var x=childData.X;
-        var y=childData.Y;
-        var z=childData.Z;
-        document.getElementById('rotateID').innerHTML = "Rotation X: "+x+" Y: "+y+" Z: "+z+" rad/s";
     });
     tempRef.on("value", function(snapshot) {
         var childData = snapshot.val();
